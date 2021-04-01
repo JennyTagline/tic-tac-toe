@@ -4,12 +4,27 @@ body {
     background-color:lavenderblush;
     color: rgb(190, 194, 137);
   }
+  .start_game{
+    width:200px;
+    height: 40px;
+    font-size:20px;
+    border-radius: 10px;
+    margin-top:50px
+  }
+  .heading {
+    color:midnightblue;
+    font-size: 70px;
+    font-weight: bolder;
+    margin-top: 100px;
+    text-decoration: underline;
+  }
   .heading_text {
     color:midnightblue;
     font-size: 40px;
     font-weight: bolder;
-   margin-top: 130px;
+   margin-top: 110px;
     text-decoration: underline;
+    margin-bottom: 50px;
   }
   .start_btn{
     width: 180px;
@@ -24,6 +39,7 @@ body {
     font-size: 70px;
     justify-content: center;
     align-items: center;
+    border: 5px solid rgb(115, 69, 136);
 }
 .row {
     display: flex;
@@ -40,34 +56,24 @@ body {
   cursor: pointer;
     background-color:rgba(172, 144, 168, 0.356);
 }
-.border_right_bottom{
-    border-right: 10px solid  rgb(115, 69, 136);
-    border-bottom: 10px solid rgb(115, 69, 136);  
-}
-.border_right{
-    border-right: 10px solid  rgb(115, 69, 136);
-}
-.border_bottom{
-    border-bottom: 10px solid  rgb(115, 69, 136);
-}
-.fc_aqua {
-    color: #1CDBF5;
-}
-  
-.fc_white {
-color: white;
-} 
-.fw_600 {
-font-weight: bolder;
-}
+
 .clear_button {
     width: 200px;
     height: 45px;
     border-radius: 10px;
     font-size: 18px;
-  margin: 50px auto 10px auto;
+    margin-top:20px;
+    margin-left: 500px;
   }
-  .clear_button:hover{
+.new_button {
+    width: 200px;
+    height: 45px;
+    border-radius: 10px;
+    font-size: 18px;
+    margin-top:20px
+  }
+
+  button:hover{
     background-color: rgba(90, 72, 87, 0.356);
     cursor:pointer;
   }
