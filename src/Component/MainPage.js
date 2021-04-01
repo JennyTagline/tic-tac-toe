@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import SquareComponent from './SquareComponent'
-import PopupBox from './PopupBox'
+import PopupBox, { ExitBox } from './PopupBox'
 import Button from './Reusable/Button'
-
+import { checkWinner } from './Reusable/CheckWinner'
 const initialState = ["", "", "", "", "", "", "", "", ""]
 const MainPage = () => {
     const [gameState, setGameState] = useState(initialState)
     console.log('gameState :>> ', gameState);
     const [clicked, setClicked] = useState(false)
+    const [clickedValue, setClickedValue] = useState([])
+    console.log('clickedValue :>> ', clickedValue);
     const [modal, setModal] = useState(true)
+    const [exit, setExit] = useState(false)
     const [user, setUser] = useState({ player1: "", player2: "" })
     const [msg, setMsg] = useState()
     const [current, setCurrent] = useState("X")
@@ -49,6 +52,7 @@ const MainPage = () => {
         if (strings[index] === "") {
             strings[index] = a
             setCurrent(a)
+            setClickedValue([...clickedValue, a])
             setGameState(strings)
             setClicked(!clicked)
         }       
@@ -56,13 +60,9 @@ const MainPage = () => {
 
     useEffect(() => {
         let strings = Array.from(gameState)
-
-        const abc = strings.map((val, i) => {
-            // console.log('val :>> ', strings[i], val);
-        })
-        const winner = checkWinner()
-        //console.log('winner :>> ', winner);
+        const winner = checkWinner(strings)
         if (winner) {
+            setClickedValue([])
             if (winner === "O") {
                 alert(`Congratulations ${player1}. You won the game.`)
                 restart()
@@ -72,34 +72,28 @@ const MainPage = () => {
                 restart()
             }
         } else {
-            console.log(`no`);
+            if (clickedValue.length === 9) {
+                alert("Game drawn.")
+                setClickedValue([])
+            }
         }
     }, [gameState])
 
-    const checkWinner = () => {
-        const lines = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6],];
-        for (let i = 0; i < lines.length; i++) {
-            const [a, b, c] = lines[i];
-            if (gameState[a] && gameState[a] === gameState[b] && gameState[a] === gameState[c]) {
-                return gameState[a];
-            } 
-        }
-        return null;
 
-    }
 
     const restart = () => {
         setGameState(initialState)
         setCurrent("X")
+        setClickedValue([])
     }
 
     return (
-        <div >
+        <div >  <button className="back" onClick={() => { setExit(true) }}><i class="fas fa-arrow-left"></i></button>
             <div className="heading_text"><p >Tic-Tac-Toe</p></div>
             <div style={{ fontSize: "17px", color: "black" }}>
                 <p>Player1 : {player1}</p>
                 <p>Player2 : {player2}</p>
-                <p>Player  {current == "X" ? player1 + "(O)" : player2 + "(X)"} turn</p>
+                <p>Player  {current === "X" ? player1 + "(O)" : player2 + "(X)"} turn</p>
             </div>
             <div className="row jc_center ">
                 <SquareComponent state={gameState[0]} onClick={() => squareClick(0)} />
@@ -118,9 +112,10 @@ const MainPage = () => {
             </div>
             <div>
                 <Button className="clear_button" onClick={restart} text="Restart Game" style={{ float: "left" }} />
-                <Button className="new_button" onClick={() => { setModal(true); setUser({ player1: "", player2: "" }) }} text="Start New Game" />
+                <Button className="new_button" onClick={() => { setModal(true); setUser({ player1: "", player2: "" }); setClickedValue([]) }} text="Start New Game" />
             </div>
             <PopupBox onChange={inputEvent} onClick={start} modal={modal} msg={msg} />
+            <ExitBox modal={exit} onClick={() => { setExit(false) }} />
         </div>
     )
 }

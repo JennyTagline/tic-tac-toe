@@ -2,7 +2,7 @@ body {
     flex-direction: column;
     text-align: center;
     background-color:lavenderblush;
-    color: rgb(190, 194, 137);
+    color: black;
   }
   .start_game{
     width:200px;
@@ -22,7 +22,7 @@ body {
     color:midnightblue;
     font-size: 40px;
     font-weight: bolder;
-   margin-top: 110px;
+   margin-top: -40px;
     text-decoration: underline;
     margin-bottom: 50px;
   }
@@ -32,6 +32,17 @@ body {
     border-radius: 10px;
     margin-top: 10px;
   }
+  .back{
+    color: black;
+    margin-top: 50px;
+    display: flex;
+    margin-left: 70px;
+    width: 80px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 30px;
+    padding: 3px 25px;
+  }
 .square{
     display: flex;
     width: 120px;
@@ -39,6 +50,8 @@ body {
     font-size: 70px;
     justify-content: center;
     align-items: center;
+    font-family: cursive;
+    background-color: lavenderblush;
     border: 5px solid rgb(115, 69, 136);
 }
 .row {
@@ -74,7 +87,7 @@ body {
   }
 
   button:hover{
-    background-color: rgba(90, 72, 87, 0.356);
+    background-color: rgba(96, 165, 185, 0.356);
     cursor:pointer;
   }
   

@@ -33,4 +33,20 @@ const PopupBox = (props) => {
 
 export default PopupBox
 
+export const ExitBox = (props) => {
+    const history = useHistory()
+    return (
+        <div>
+
+            <Modal isOpen={props.modal} style={{ content: { fontSize: "20px", width: '600px', height: '150px', marginLeft: '630px', marginTop: '250px', backgroundColor: 'lavenderblush', border: '1px solid black' } }}>
+                <div>
+                    <p>Are you sure wants to exit?</p>
+                    <Button className="start_btn" onClick={() => { history.push("/") }} text="Yes" style={{ float: "left", marginLeft: "65px" }} />
+                    <Button className="start_btn" text="No" onClick={props.onClick} />
+                </div>
+            </Modal>
+        </div>
+    )
+}
+
 
