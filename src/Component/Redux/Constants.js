@@ -1,0 +1,5 @@
+export const ADD = 'ADD'
+export const RESET = 'RESET'
+export const SET_PLAYER1 = 'SET_PLAYER1'
+export const SET_PLAYER2 = 'SET_PLAYER2'
+export const WINNER = 'WINNER'

@@ -11,6 +11,17 @@ body {
     border-radius: 10px;
     margin-top:50px
   }
+  .square{
+    display: flex;
+    width: 120px;
+    height: 120px;
+    font-size: 70px;
+    justify-content: center;
+    align-items: center;
+    font-family: cursive;
+    background-color: lavenderblush;
+    border: 5px solid rgb(115, 69, 136);
+}
   .heading {
     color:midnightblue;
     font-size: 70px;
@@ -43,17 +54,7 @@ body {
     font-size: 30px;
     padding: 3px 25px;
   }
-.square{
-    display: flex;
-    width: 120px;
-    height: 120px;
-    font-size: 70px;
-    justify-content: center;
-    align-items: center;
-    font-family: cursive;
-    background-color: lavenderblush;
-    border: 5px solid rgb(115, 69, 136);
-}
+
 .row {
     display: flex;
     flex-direction: row;
@@ -75,15 +76,16 @@ body {
     height: 45px;
     border-radius: 10px;
     font-size: 18px;
-    margin-top:20px;
-    margin-left: 500px;
+    margin-top:110px;
+    margin-left: 760px;
   }
 .new_button {
     width: 200px;
     height: 45px;
     border-radius: 10px;
     font-size: 18px;
-    margin-top:20px
+    margin-top:110px;
+    margin-right: 600px;
   }
 
   button:hover{

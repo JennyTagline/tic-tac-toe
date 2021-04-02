@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import SquareComponent from './SquareComponent'
-import PopupBox, { ExitBox } from './PopupBox'
+import PopupBox, { ExitBox, WinnerBox } from './PopupBox'
 import Button from './Reusable/Button'
 import { checkWinner } from './Reusable/CheckWinner'
 const initialState = ["", "", "", "", "", "", "", "", ""]
-const MainPage = () => {
+
+const style = {
+    borderRadius: '10px',
+    width: '300px',
+    height: '300px',
+    margin: '0 auto',
+    display: 'grid',
+    gridTemplate: 'repeat(3, 1fr) / repeat(3, 1fr)'
+};
+
+const MainPage = (props) => {
     const [gameState, setGameState] = useState(initialState)
-    console.log('gameState :>> ', gameState);
     const [clicked, setClicked] = useState(false)
     const [clickedValue, setClickedValue] = useState([])
-    console.log('clickedValue :>> ', clickedValue);
     const [modal, setModal] = useState(true)
     const [exit, setExit] = useState(false)
+    const [win, setWin] = useState(false)
     const [user, setUser] = useState({ player1: "", player2: "" })
     const [msg, setMsg] = useState()
     const [current, setCurrent] = useState("X")
@@ -42,6 +51,8 @@ const MainPage = () => {
     const start = () => {
         const data = validation()
         if (data) {
+            props.setPlayer1(player1)
+            props.setPlayer2(player2)
             setModal(false)
         }
     }
@@ -51,6 +62,7 @@ const MainPage = () => {
         const a = clicked ? "X" : "O";
         if (strings[index] === "") {
             strings[index] = a
+            props.addData(strings)
             setCurrent(a)
             setClickedValue([...clickedValue, a])
             setGameState(strings)
@@ -64,38 +76,58 @@ const MainPage = () => {
         if (winner) {
             setClickedValue([])
             if (winner === "O") {
-                alert(`Congratulations ${player1}. You won the game.`)
-                restart()
+                setWin(true)
+                props.setWinner(player1)
             }
             else {
-                alert(`Congratulations ${player2}. You won the game.`)
-                restart()
+                setWin(true)
+                props.setWinner(player2)
             }
         } else {
             if (clickedValue.length === 9) {
-                alert("Game drawn.")
+                alert("Game Dawn")
+                props.setWinner("Game Drawn")
                 setClickedValue([])
             }
         }
     }, [gameState])
 
-
-
     const restart = () => {
+        props.setWinner("")
         setGameState(initialState)
         setCurrent("X")
         setClickedValue([])
+        props.addData(initialState)
+    }
+
+    const startNewGame = () => {
+        props.setPlayer1("")
+        props.setPlayer2("")
+        // props.setWinner("")
+        setModal(true)
+        setUser({ player1: "", player2: "" })
+        setClickedValue([])
+
     }
 
     return (
         <div >  <button className="back" onClick={() => { setExit(true) }}><i class="fas fa-arrow-left"></i></button>
+
             <div className="heading_text"><p >Tic-Tac-Toe</p></div>
+
             <div style={{ fontSize: "17px", color: "black" }}>
-                <p>Player1 : {player1}</p>
-                <p>Player2 : {player2}</p>
-                <p>Player  {current === "X" ? player1 + "(O)" : player2 + "(X)"} turn</p>
+                <p>Player1 : {props.player1}</p>
+                <p>Player2 : {props.player2}</p>
+                <p>Player  {current === "X" ? props.player1 + "(O)" : props.player2 + "(X)"} turn</p>
             </div>
-            <div className="row jc_center ">
+            <div style={style}>
+                {
+                    initialState.map((val, i) => (
+                        <SquareComponent key={i} state={gameState[i]} onClick={() => squareClick(i)} />
+                    ))
+                }
+            </div>
+            {/* <div className="row jc_center ">
                 <SquareComponent state={gameState[0]} onClick={() => squareClick(0)} />
                 <SquareComponent state={gameState[1]} onClick={() => squareClick(1)} />
                 <SquareComponent state={gameState[2]} onClick={() => squareClick(2)} />
@@ -109,13 +141,14 @@ const MainPage = () => {
                 <SquareComponent state={gameState[6]} onClick={() => squareClick(6)} />
                 <SquareComponent state={gameState[7]} onClick={() => squareClick(7)} />
                 <SquareComponent state={gameState[8]} onClick={() => squareClick(8)} />
-            </div>
+            </div> */}
             <div>
                 <Button className="clear_button" onClick={restart} text="Restart Game" style={{ float: "left" }} />
-                <Button className="new_button" onClick={() => { setModal(true); setUser({ player1: "", player2: "" }); setClickedValue([]) }} text="Start New Game" />
+                <Button className="new_button" onClick={startNewGame} text="Start New Game" />
             </div>
-            <PopupBox onChange={inputEvent} onClick={start} modal={modal} msg={msg} />
-            <ExitBox modal={exit} onClick={() => { setExit(false) }} />
+            <PopupBox onChange={inputEvent} onClickStart={start} modal={modal} msg={msg} />
+            <ExitBox modal={exit} onClick={() => { setExit(false); restart() }} />
+            <WinnerBox modal={win} onClick={() => { setWin(false); restart() }} winner={props.winner} setExit={() => { setWin(false); setExit(true) }} />
         </div>
     )
 }

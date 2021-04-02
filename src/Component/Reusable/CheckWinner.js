@@ -1,5 +1,5 @@
 export const checkWinner = (strings) => {
-    console.log('strings :>> ', strings);
+ //   console.log('strings :>> ', strings);
     const lines = [
         [0, 1, 2],
         [3, 4, 5],

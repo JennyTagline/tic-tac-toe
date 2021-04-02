@@ -23,7 +23,7 @@ const PopupBox = (props) => {
                         </div>
                         <input type="text" class="form-control" placeholder="player2" name="player2" onChange={props.onChange} />
                     </div>
-                    <Button className="start_btn" onClick={props.onClick} text="Start" style={{ float: "left", marginLeft: "65px" }} />
+                    <Button className="start_btn" onClick={props.onClickStart} text="Start" style={{ float: "left", marginLeft: "65px" }} />
                     <Button className="start_btn" onClick={() => { history.push("/") }} text="Cancel" />
                 </div>
             </Modal>
@@ -43,6 +43,20 @@ export const ExitBox = (props) => {
                     <p>Are you sure wants to exit?</p>
                     <Button className="start_btn" onClick={() => { history.push("/") }} text="Yes" style={{ float: "left", marginLeft: "65px" }} />
                     <Button className="start_btn" text="No" onClick={props.onClick} />
+                </div>
+            </Modal>
+        </div>
+    )
+}
+export const WinnerBox = (props) => {
+    return (
+        <div>
+
+            <Modal isOpen={props.modal} style={{ content: { fontSize: "20px", width: '600px', height: '150px', marginLeft: '630px', marginTop: '250px', backgroundColor: 'lavenderblush', border: '1px solid black' } }}>
+                <div>
+                    <p>Winner is : {props.winner}</p>
+                    <Button className="start_btn" onClick={props.onClick} text="Play again" style={{ float: "left", marginLeft: "65px" }} />
+                    <Button className="start_btn" text="Exit" onClick={props.setExit} />
                 </div>
             </Modal>
         </div>
