@@ -1,5 +1,6 @@
 import MainPage from '../MainPage'
 import { connect } from 'react-redux'
+import { add, reset, player1, player2, winner } from '../Redux/action'
 
 const mapStateToProps = (state) => {
     return {
@@ -11,11 +12,11 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        addData: (data) => { dispatch({ type: 'ADD', payload: data }) },
-        resetData: () => { dispatch({ type: 'RESET' }) },
-        setPlayer1: (data) => { dispatch({ type: 'SET_PLAYER1', payload: data }) },
-        setPlayer2: (data) => { dispatch({ type: 'SET_PLAYER2', payload: data }) },
-        setWinner: (data) => { dispatch({ type: 'WINNER', payload: data }) }
+        addData: (data) => { dispatch(add(data)) },
+        resetData: () => { dispatch(reset()) },
+        setPlayer1: (data) => { dispatch(player1(data)) },
+        setPlayer2: (data) => { dispatch(player2(data)) },
+        setWinner: (data) => { dispatch(winner(data)) }
     }
 }
 
