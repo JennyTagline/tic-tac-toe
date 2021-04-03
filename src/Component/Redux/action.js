@@ -1,4 +1,4 @@
-import { ADD, RESET, SET_PLAYER1, SET_PLAYER2, WINNER } from './Constants'
+import { ADD, RESET, SET_PLAYER1, SET_PLAYER2, WINNER, EXIT_MODAL, WINNER_MODAL, PLAYER_MODAL } from './Constants'
 //with redux
 /* export const add = (data) => {
     return {
@@ -47,6 +47,30 @@ export const winner = (data) => {
     return (dispatch) => {
         dispatch({
             type: WINNER,
+            payload: data
+        })
+    }
+}
+export const playerBox = (data) => {
+    return (dispatch) => {
+        dispatch({
+            type: PLAYER_MODAL,
+            payload: data
+        })
+    }
+}
+export const winnerBox = (data) => {
+    return (dispatch) => {
+        dispatch({
+            type: WINNER_MODAL,
+            payload: data
+        })
+    }
+}
+export const exitBox = (data) => {
+    return (dispatch) => {
+        dispatch({
+            type: EXIT_MODAL,
             payload: data
         })
     }

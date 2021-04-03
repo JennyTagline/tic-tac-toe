@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import SquareComponent from './SquareComponent'
-import PopupBox, { ExitBox, WinnerBox } from './PopupBox'
+import { PlayerBox, ExitBox, WinnerBox } from './PopupBox'
 import Button from './Reusable/Button'
 import { checkWinner } from './Reusable/CheckWinner'
 import { connect } from 'react-redux'
@@ -17,25 +17,23 @@ const style = {
 };
 
 const MainPage = (props) => {
-    const [gameState, setGameState] = useState(initialState)
+    console.log('props.winnerBox :>> ', props.winnerBox);
+    const { data, player1, player2, winner, addData, setPlayer1, setPlayer2, setWinner, setExitBox, setWinnerBox, setPlayerBox, exitBox, winnerBox, playerBox } = props;
     const [clicked, setClicked] = useState(false)
     const [clickedValue, setClickedValue] = useState([])
-    const [modal, setModal] = useState(true)
-    const [exit, setExit] = useState(false)
-    const [win, setWin] = useState(false)
-    const [user, setUser] = useState({ player1: "", player2: "" })
     const [msg, setMsg] = useState()
     const [current, setCurrent] = useState("X")
+    
+
+    useEffect(() => {
+        setExitBox(false)
+        setPlayerBox(true)
+        setWinnerBox(false)
+    }, [])
 
     const inputEvent = (e) => {
-        const { name, value } = e.target
-        setUser((pre) => {
-            return {
-                ...pre, [name]: value
-            }
-        })
+        (e.target.name === "player1" ? setPlayer1(e.target.value) : setPlayer2(e.target.value))  
     }
-    const { player1, player2 } = user
 
     const validation = () => {
         if (!player1.length) {
@@ -53,103 +51,84 @@ const MainPage = (props) => {
     const start = () => {
         const data = validation()
         if (data) {
-            props.setPlayer1(player1)
-            props.setPlayer2(player2)
-            setModal(false)
+            setPlayerBox(false)
         }
     }
 
     const squareClick = (index) => {
-        let strings = Array.from(gameState)
+        let strings = Array.from(data)
         const a = clicked ? "X" : "O";
         if (strings[index] === "") {
             strings[index] = a
-            props.addData(strings)
+            addData(strings)
             setCurrent(a)
             setClickedValue([...clickedValue, a])
-            setGameState(strings)
             setClicked(!clicked)
-        }       
+        }
     }
 
     useEffect(() => {
-        let strings = Array.from(gameState)
+        let strings = Array.from(data)
         const winner = checkWinner(strings)
         if (winner) {
             setClickedValue([])
             if (winner === "O") {
-                setWin(true)
-                props.setWinner(props.player1)
+                setWinnerBox(true)
+                setWinner(player1)
             }
             else {
-                setWin(true)
-                props.setWinner(props.player2)
+                setWinnerBox(true)
+                setWinner(player2)
             }
         } else {
             if (clickedValue.length === 9) {
                 alert("Game Dawn")
-                props.setWinner("Game Drawn")
+                setWinner("Game Drawn")
                 setClickedValue([])
             }
         }
-    }, [gameState])
+    }, [data])
 
     const restart = () => {
-        setGameState(initialState)
         setCurrent("X")
         setClickedValue([])
-        props.addData(initialState)
+        addData(initialState)
     }
 
     const startNewGame = () => {
-        props.setWinner("")
-        setModal(true)
-        setUser({ player1: "", player2: "" })
+        setWinner("")
+        setPlayerBox(true)
         setClickedValue([])
 
     }
 
     return (
-        <div >  <button className="back" onClick={() => { setExit(true) }}><i class="fas fa-arrow-left"></i></button>
+        <div >  <button className="back" onClick={() => { setExitBox(true) }}><i class="fas fa-arrow-left"></i></button>
 
             <div className="heading_text"><p >Tic-Tac-Toe</p></div>
 
             <div style={{ fontSize: "17px", color: "black" }}>
-                <p>Player1 : {props.player1}</p>
-                <p>Player2 : {props.player2}</p>
-                <p>Player  {current === "X" ? props.player1 + "(O)" : props.player2 + "(X)"} turn</p>
+                <p>Player1 : {player1}</p>
+                <p>Player2 : {player2}</p>
+                <p>Player  {current === "X" ? player1 + "(O)" : player2 + "(X)"} turn</p>
             </div>
             <div style={style}>
                 {
-                    initialState.map((val, i) => (
-                        <SquareComponent key={i} state={gameState[i]} onClick={() => squareClick(i)} />
+                    data.map((val, i) => (
+                        <SquareComponent key={i} state={data[i]} onClick={() => squareClick(i)} />
                     ))
                 }
-            </div>
-            {/* <div className="row jc_center ">
-                <SquareComponent state={gameState[0]} onClick={() => squareClick(0)} />
-                <SquareComponent state={gameState[1]} onClick={() => squareClick(1)} />
-                <SquareComponent state={gameState[2]} onClick={() => squareClick(2)} />
-            </div>
-            <div className="row jc_center ">
-                <SquareComponent state={gameState[3]} onClick={() => squareClick(3)} />
-                <SquareComponent state={gameState[4]} onClick={() => squareClick(4)} />
-                <SquareComponent state={gameState[5]} onClick={() => squareClick(5)} />
-            </div>
-            <div className="row jc_center ">
-                <SquareComponent state={gameState[6]} onClick={() => squareClick(6)} />
-                <SquareComponent state={gameState[7]} onClick={() => squareClick(7)} />
-                <SquareComponent state={gameState[8]} onClick={() => squareClick(8)} />
-            </div> */}
+            </div>           
             <div>
                 <Button className="clear_button" onClick={restart} text="Restart Game" style={{ float: "left" }} />
                 <Button className="new_button" onClick={startNewGame} text="Start New Game" />
             </div>
-            <PopupBox onChange={inputEvent} onClickStart={start} onClickCancel={() => { setModal(false) }} modal={modal} msg={msg} />
-            <ExitBox modal={exit} onClick={() => { setExit(false); restart() }} />
-            <WinnerBox modal={win} onClick={() => { setWin(false); restart() }} winner={props.winner} setExit={() => { setWin(false); setExit(true) }} />
+            <PlayerBox onChange={inputEvent} onClickStart={start} onClickCancel={() => { setPlayerBox(false) }} modal={playerBox} msg={msg} />
+            <ExitBox modal={exitBox} onClick={() => { setExitBox(false); restart() }} />
+            <WinnerBox modal={winnerBox} onClick={() => { setWinnerBox(false); restart() }} winner={winner} setExit={() => { setWinnerBox(false); setExitBox(true) }} />
         </div>
     )
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainPage)
+

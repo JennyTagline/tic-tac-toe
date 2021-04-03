@@ -3,7 +3,7 @@ import Modal from 'react-modal'
 import Button from './Reusable/Button'
 import { useHistory } from 'react-router-dom'
 
-const PopupBox = (props) => {
+export const PlayerBox = (props) => {
     const history = useHistory()
     return (
         <div>
@@ -31,7 +31,6 @@ const PopupBox = (props) => {
     )
 }
 
-export default PopupBox
 
 export const ExitBox = (props) => {
     const history = useHistory()
