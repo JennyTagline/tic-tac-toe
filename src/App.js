@@ -1,7 +1,7 @@
 import './App.css';
 import './format.css'
-import ConnectProps from './Component/Redux/ConnectProps'
 import HomePage from './Component/HomePage'
+import MainPage from './Component/MainPage'
 import { BrowserRouter as Router, Route } from "react-router-dom"
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
     <div >
       <Router>
        <Route exact path="/" component={HomePage} />
-        <Route exact path="/mainPage" component={ConnectProps} />
+        <Route exact path="/mainPage" component={MainPage} />
       </Router>
       </div>
   );

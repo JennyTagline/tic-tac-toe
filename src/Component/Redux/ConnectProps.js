@@ -1,8 +1,6 @@
-import MainPage from '../MainPage'
-import { connect } from 'react-redux'
 import { add, reset, player1, player2, winner } from '../Redux/action'
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
     return {
         player1: state.player1,
         player2: state.player2,
@@ -10,7 +8,7 @@ const mapStateToProps = (state) => {
         winner: state.winner
     }
 }
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
     return {
         addData: (data) => { dispatch(add(data)) },
         resetData: () => { dispatch(reset()) },
@@ -20,4 +18,3 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainPage)

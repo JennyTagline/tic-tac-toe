@@ -24,7 +24,7 @@ const PopupBox = (props) => {
                         <input type="text" class="form-control" placeholder="player2" name="player2" onChange={props.onChange} />
                     </div>
                     <Button className="start_btn" onClick={props.onClickStart} text="Start" style={{ float: "left", marginLeft: "65px" }} />
-                    <Button className="start_btn" onClick={() => { history.push("/") }} text="Cancel" />
+                    <Button className="start_btn" onClick={props.onClickCancel} text="Cancel" />
                 </div>
             </Modal>
         </div>

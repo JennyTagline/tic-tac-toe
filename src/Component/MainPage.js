@@ -3,6 +3,8 @@ import SquareComponent from './SquareComponent'
 import PopupBox, { ExitBox, WinnerBox } from './PopupBox'
 import Button from './Reusable/Button'
 import { checkWinner } from './Reusable/CheckWinner'
+import { connect } from 'react-redux'
+import { mapStateToProps, mapDispatchToProps } from './Redux/ConnectProps'
 const initialState = ["", "", "", "", "", "", "", "", ""]
 
 const style = {
@@ -77,11 +79,11 @@ const MainPage = (props) => {
             setClickedValue([])
             if (winner === "O") {
                 setWin(true)
-                props.setWinner(player1)
+                props.setWinner(props.player1)
             }
             else {
                 setWin(true)
-                props.setWinner(player2)
+                props.setWinner(props.player2)
             }
         } else {
             if (clickedValue.length === 9) {
@@ -93,7 +95,6 @@ const MainPage = (props) => {
     }, [gameState])
 
     const restart = () => {
-        props.setWinner("")
         setGameState(initialState)
         setCurrent("X")
         setClickedValue([])
@@ -101,9 +102,7 @@ const MainPage = (props) => {
     }
 
     const startNewGame = () => {
-        props.setPlayer1("")
-        props.setPlayer2("")
-        // props.setWinner("")
+        props.setWinner("")
         setModal(true)
         setUser({ player1: "", player2: "" })
         setClickedValue([])
@@ -146,11 +145,11 @@ const MainPage = (props) => {
                 <Button className="clear_button" onClick={restart} text="Restart Game" style={{ float: "left" }} />
                 <Button className="new_button" onClick={startNewGame} text="Start New Game" />
             </div>
-            <PopupBox onChange={inputEvent} onClickStart={start} modal={modal} msg={msg} />
+            <PopupBox onChange={inputEvent} onClickStart={start} onClickCancel={() => { setModal(false) }} modal={modal} msg={msg} />
             <ExitBox modal={exit} onClick={() => { setExit(false); restart() }} />
             <WinnerBox modal={win} onClick={() => { setWin(false); restart() }} winner={props.winner} setExit={() => { setWin(false); setExit(true) }} />
         </div>
     )
 }
 
-export default MainPage
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage)
