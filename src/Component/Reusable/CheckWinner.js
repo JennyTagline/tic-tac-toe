@@ -1,4 +1,4 @@
-export const checkWinner = (strings) => {
+export const checkWinner9 = (strings) => {
     const lines = [
         [0, 1, 2],
         [3, 4, 5],
@@ -19,8 +19,8 @@ export const checkWinner = (strings) => {
 
 }
 //for 16 block
-/* {
-    console.log('strings :>> ', strings);
+
+export const checkWinner16 = (strings) => {
     const lines = [
         [0, 1, 2.3],
         [4, 5, 6, 7],
@@ -41,4 +41,4 @@ export const checkWinner = (strings) => {
     }
     return null;
 
-} */
+} 

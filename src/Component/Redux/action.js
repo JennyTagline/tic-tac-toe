@@ -1,4 +1,4 @@
-import { ADD, RESET, SET_PLAYER1, SET_PLAYER2, WINNER, EXIT_MODAL, WINNER_MODAL, PLAYER_MODAL } from './Constants'
+import { ADD, RESET, SET_PLAYERS, WINNER, MODALS, CURRENT, CLICKED, CLICKED_VALUE } from './Constants'
 //with redux
 /* export const add = (data) => {
     return {
@@ -25,23 +25,16 @@ export const reset = () => {
     }
 }
 
-export const player1 = (data) => {
+
+export const players = (data) => {
     return (dispatch) => {
         dispatch({
-            type: SET_PLAYER1,
+            type: SET_PLAYERS,
             payload: data
         })
     }
 }
 
-export const player2 = (data) => {
-    return (dispatch) => {
-        dispatch({
-            type: SET_PLAYER2,
-            payload: data
-        })
-    }
-}
 
 export const winner = (data) => {
     return (dispatch) => {
@@ -51,26 +44,35 @@ export const winner = (data) => {
         })
     }
 }
-export const playerBox = (data) => {
+export const modals = (data) => {
     return (dispatch) => {
         dispatch({
-            type: PLAYER_MODAL,
+            type: MODALS,
             payload: data
         })
     }
 }
-export const winnerBox = (data) => {
+
+export const current = (data) => {
     return (dispatch) => {
         dispatch({
-            type: WINNER_MODAL,
+            type: CURRENT,
             payload: data
         })
     }
 }
-export const exitBox = (data) => {
+export const clicked = (data) => {
     return (dispatch) => {
         dispatch({
-            type: EXIT_MODAL,
+            type: CLICKED,
+            payload: data
+        })
+    }
+}
+export const clickedValue = (data) => {
+    return (dispatch) => {
+        dispatch({
+            type: CLICKED_VALUE,
             payload: data
         })
     }

@@ -1,49 +1,60 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import SquareComponent from './SquareComponent'
 import { PlayerBox, ExitBox, WinnerBox } from './PopupBox'
 import Button from './Reusable/Button'
-import { checkWinner } from './Reusable/CheckWinner'
+import { checkWinner9, checkWinner16 } from './Reusable/CheckWinner'
 import { connect } from 'react-redux'
 import { mapStateToProps, mapDispatchToProps } from './Redux/ConnectProps'
 const initialState = ["", "", "", "", "", "", "", "", ""]
 
-const style = {
-    borderRadius: '10px',
-    width: '300px',
-    height: '300px',
-    margin: '0 auto',
-    display: 'grid',
-    gridTemplate: 'repeat(3, 1fr) / repeat(3, 1fr)'
-};
-
 const MainPage = (props) => {
-    console.log('props.winnerBox :>> ', props.winnerBox);
-    const { data, player1, player2, winner, addData, setPlayer1, setPlayer2, setWinner, setExitBox, setWinnerBox, setPlayerBox, exitBox, winnerBox, playerBox } = props;
-    const [clicked, setClicked] = useState(false)
-    const [clickedValue, setClickedValue] = useState([])
-    const [msg, setMsg] = useState()
-    const [current, setCurrent] = useState("X")
-    
+    const { data, addData,
+        winner, setWinner,
+        players, setPlayers,
+        modals, setModals,
+        current, setCurrent,
+        clicked, setClicked,
+        clickedValue, setClickedValue
+    } = props;
+    const { player1, player2, boxType } = players.players
+    const { exitBox, playerBox, winnerBox } = modals
+
+    const box = Number(boxType)
+    const boxArray = (Array(box * box).fill(""))
+
+    const style = {
+        borderRadius: '10px',
+        width: '300px',
+        height: '300px',
+        margin: '0 auto',
+        display: 'grid',
+        gridTemplate: (boxType === "3" ? 'repeat(3, 1fr) / repeat(3, 1fr)' : 'repeat(4, 1fr) / repeat(4, 1fr)'
+        )
+    };
 
     useEffect(() => {
-        setExitBox(false)
-        setPlayerBox(true)
-        setWinnerBox(false)
+        setModals({
+            exitBox: false,
+            playerBox: true,
+            winnerBox: false
+        })
+        setClicked(false)
     }, [])
-
     const inputEvent = (e) => {
-        (e.target.name === "player1" ? setPlayer1(e.target.value) : setPlayer2(e.target.value))  
+        setPlayers(
+            {
+                [e.target.name]: e.target.value
+            })
     }
 
     const validation = () => {
         if (!player1.length) {
-            setMsg("Enter player1.")
+            alert("Enter player1.")
         } else if (!player2.length) {
-            setMsg("Enter player2.")
+            alert("Enter player2.")
         } else if (player1 === player2) {
-            setMsg("Give different username.")
+            alert("Give different username.")
         } else {
-            setMsg("")
             return true
         }
     }
@@ -51,7 +62,11 @@ const MainPage = (props) => {
     const start = () => {
         const data = validation()
         if (data) {
-            setPlayerBox(false)
+            setModals({
+                ...modals,
+                playerBox: false,
+            })
+            addData(boxArray)
         }
     }
 
@@ -69,19 +84,31 @@ const MainPage = (props) => {
 
     useEffect(() => {
         let strings = Array.from(data)
-        const winner = checkWinner(strings)
+        /*if (boxArray === "9") {
+            winner = checkWinner9(strings)
+        }
+        else {
+            const winner = checkWinner16(strings)
+        }*/
+        winner = checkWinner9(strings)
         if (winner) {
-            setClickedValue([])
+
             if (winner === "O") {
-                setWinnerBox(true)
+                setModals({
+                    ...modals,
+                    winnerBox: true,
+                })
                 setWinner(player1)
             }
             else {
-                setWinnerBox(true)
+                setModals({
+                    ...modals,
+                    winnerBox: true,
+                })
                 setWinner(player2)
             }
         } else {
-            if (clickedValue.length === 9) {
+            if (clickedValue.length === box * box) {
                 alert("Game Dawn")
                 setWinner("Game Drawn")
                 setClickedValue([])
@@ -92,18 +119,25 @@ const MainPage = (props) => {
     const restart = () => {
         setCurrent("X")
         setClickedValue([])
-        addData(initialState)
+        addData(boxArray)
     }
 
     const startNewGame = () => {
         setWinner("")
-        setPlayerBox(true)
+        setModals({
+            ...modals,
+            playerBox: true,
+        })
         setClickedValue([])
-
     }
 
     return (
-        <div >  <button className="back" onClick={() => { setExitBox(true) }}><i class="fas fa-arrow-left"></i></button>
+        <div >  <button className="back" onClick={() => {
+            setModals({
+                ...modals,
+                exitBox: true,
+            })
+        }}><i class="fas fa-arrow-left"></i></button>
 
             <div className="heading_text"><p >Tic-Tac-Toe</p></div>
 
@@ -118,14 +152,21 @@ const MainPage = (props) => {
                         <SquareComponent key={i} state={data[i]} onClick={() => squareClick(i)} />
                     ))
                 }
-            </div>           
+            </div>
             <div>
                 <Button className="clear_button" onClick={restart} text="Restart Game" style={{ float: "left" }} />
                 <Button className="new_button" onClick={startNewGame} text="Start New Game" />
             </div>
-            <PlayerBox onChange={inputEvent} onClickStart={start} onClickCancel={() => { setPlayerBox(false) }} modal={playerBox} msg={msg} />
-            <ExitBox modal={exitBox} onClick={() => { setExitBox(false); restart() }} />
-            <WinnerBox modal={winnerBox} onClick={() => { setWinnerBox(false); restart() }} winner={winner} setExit={() => { setWinnerBox(false); setExitBox(true) }} />
+            <PlayerBox onChange={inputEvent} onClickStart={start}
+                onClickCancel={() => { setModals({ ...modals, playerBox: false, }) }}
+                modal={playerBox} />
+
+            <ExitBox modal={exitBox} onClickYes={() => { setPlayers({ player1: "", player2: "" }) }}
+                onClick={() => { setModals({ ...modals, exitBox: false, }); restart() }} />
+            <WinnerBox modal={winnerBox}
+                onClick={() => { setModals({ ...modals, winnerBox: false, }); restart() }}
+                winner={winner}
+                setExit={() => { setModals({ ...modals, winnerBox: false, exitBox: true }) }} />
         </div>
     )
 }
