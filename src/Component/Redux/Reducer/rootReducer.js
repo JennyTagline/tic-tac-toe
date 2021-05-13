@@ -1,9 +1,9 @@
-import { ADD, RESET, WINNER, MODALS, CURRENT, CLICKED, CLICKED_VALUE } from '../Constants'
+import { ADD, RESET, WINNER, CURRENT, CLICKED, CLICKED_VALUE } from '../Constants'
 
 const initialState = {
     data: [],
     winner: "",
-    clicked: "",
+    clicked: false,
     current: "",
     clickedValue: []
 }

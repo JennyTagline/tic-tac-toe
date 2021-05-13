@@ -5,7 +5,7 @@ body {
     color: black;
   }
   .start_game{
-    width:200px;
+    width:250px;
     height: 40px;
     font-size:20px;
     border-radius: 10px;
@@ -15,12 +15,12 @@ body {
     display: flex;
     width: 120px;
     height: 120px;
-    font-size: 70px;
+    font-size: 60px;
     justify-content: center;
     align-items: center;
     font-family: cursive;
     background-color: lavenderblush;
-    border: 5px solid rgb(115, 69, 136);
+    border: 5px solid rgb(187, 142, 207);
 }
   .heading {
     color:midnightblue;
@@ -68,7 +68,7 @@ body {
   }
 .square:hover{
   cursor: pointer;
-    background-color:rgba(172, 144, 168, 0.356);
+    background-color:rgba(187, 152, 182, 0.356);
 }
 
 .clear_button {
@@ -76,7 +76,7 @@ body {
     height: 45px;
     border-radius: 10px;
     font-size: 18px;
-    margin-top:110px;
+    margin-top:230px;
     margin-left: 760px;
   }
 .new_button {
@@ -84,7 +84,7 @@ body {
     height: 45px;
     border-radius: 10px;
     font-size: 18px;
-    margin-top:110px;
+    margin-top:230px;
     margin-right: 600px;
   }
 

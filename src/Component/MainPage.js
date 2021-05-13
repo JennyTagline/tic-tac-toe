@@ -2,10 +2,9 @@ import React, { useEffect } from 'react'
 import SquareComponent from './SquareComponent'
 import { PlayerBox, ExitBox, WinnerBox } from './PopupBox'
 import Button from './Reusable/Button'
-import { checkWinner9, checkWinner16 } from './Reusable/CheckWinner'
+import { checkWinner } from './Reusable/CheckWinner'
 import { connect } from 'react-redux'
 import { mapStateToProps, mapDispatchToProps } from './Redux/ConnectProps'
-const initialState = ["", "", "", "", "", "", "", "", ""]
 
 const MainPage = (props) => {
     const { data, addData,
@@ -24,25 +23,15 @@ const MainPage = (props) => {
 
     const style = {
         borderRadius: '10px',
-        width: '300px',
-        height: '300px',
-        margin: '0 auto',
+        width: "300px",
         display: 'grid',
-        gridTemplate: (boxType === "3" ? 'repeat(3, 1fr) / repeat(3, 1fr)' : 'repeat(4, 1fr) / repeat(4, 1fr)'
-        )
+        marginLeft: "750px",
+        gridTemplate: `repeat(${box}, 1fr) / repeat(${box}, 1fr)`
     };
 
-    useEffect(() => {
-        setModals({
-            exitBox: false,
-            playerBox: true,
-            winnerBox: false
-        })
-        setClicked(false)
-    }, [])
     const inputEvent = (e) => {
         setPlayers(
-            {
+         {
                 [e.target.name]: e.target.value
             })
     }
@@ -84,13 +73,7 @@ const MainPage = (props) => {
 
     useEffect(() => {
         let strings = Array.from(data)
-        /*if (boxArray === "9") {
-            winner = checkWinner9(strings)
-        }
-        else {
-            const winner = checkWinner16(strings)
-        }*/
-        winner = checkWinner9(strings)
+        const winner = checkWinner(strings)
         if (winner) {
 
             if (winner === "O") {
@@ -149,7 +132,7 @@ const MainPage = (props) => {
             <div style={style}>
                 {
                     data.map((val, i) => (
-                        <SquareComponent key={i} state={data[i]} onClick={() => squareClick(i)} />
+                        <SquareComponent key={i} state={data[i]} onClick={() => squareClick(i)} />                        
                     ))
                 }
             </div>

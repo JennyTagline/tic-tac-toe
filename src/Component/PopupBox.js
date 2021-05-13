@@ -45,6 +45,7 @@ export const PlayerBox = (props) => {
                                 <option>Select</option>
                                 <option value="3">3*3</option>
                                 <option value="4">4*4</option>
+                                <option value="5">5*5</option>
                             </select>
                         </div>
                     </div>

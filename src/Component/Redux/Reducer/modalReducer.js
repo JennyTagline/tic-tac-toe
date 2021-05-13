@@ -1,5 +1,5 @@
 const initialState = {
-    modals: { exitBox: "", winnerBox: "", playerBox: "" },
+    modals: { exitBox: false, winnerBox: false, playerBox: true },
 }
 
 const modalReducer = (state = initialState, { type, payload }) => {
